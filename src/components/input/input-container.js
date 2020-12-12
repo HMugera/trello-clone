@@ -6,7 +6,6 @@ import {
   Collapse,
 } from "@material-ui/core";
 
-
 import React, { useState } from "react";
 import InputCard from "./inputCard";
 
@@ -23,14 +22,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function Inputcontainer() {
+function Inputcontainer({ listId }) {
   const [open, setOpen] = useState(false);
-  const classes = useStyles(); 
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Collapse in={open}>
-        <InputCard setOpen={setOpen} />
+        <InputCard setOpen={setOpen} listId={listId} />
       </Collapse>
       <Collapse in={!open}>
         <Paper

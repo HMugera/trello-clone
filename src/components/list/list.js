@@ -23,7 +23,7 @@ function List({ list }) {
         {list.cards.map((card) => (
           <Card key={card.id} card={card} />
         ))}
-        <Inputcontainer />
+        <Inputcontainer listId={list.id} />
       </Paper>
     </div>
   );
