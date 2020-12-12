@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Title() {
+function Title({ listtitle }) {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("Todo");
+  const [title, setTitle] = useState(listtitle);
   const classes = useStyles();
 
   const handleChange = (e) => {
