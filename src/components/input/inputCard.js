@@ -10,6 +10,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import storeApi from "../../utils/storeApi";
 const useStyles = makeStyles((theme) => ({
   card: {
+    width: "280px",
     padding: theme.spacing(1),
   },
   input: {

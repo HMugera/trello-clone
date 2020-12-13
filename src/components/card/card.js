@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles, Paper } from "@material-ui/core";
+import { Draggable } from "react-beautiful-dnd";
+import { PersonalVideoRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -8,12 +10,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Card({ card }) {
+function Card({ card, index }) {
   const classes = useStyles();
   return (
-    <div>
-      <Paper className={classes.card}>{card.title}</Paper>
-    </div>
+    <Draggable draggableId={card.id} index={index}>
+      {(provided) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.dragHandleProps}
+          {...provided.draggableProps}
+        >
+          <Paper className={classes.card}>{card.title}</Paper>
+        </div>
+      )}
+    </Draggable>
   );
 }
 
