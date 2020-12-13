@@ -9,7 +9,6 @@ import React, { useState, useContext } from "react";
 import ClearIcon from "@material-ui/icons/Clear";
 import storeApi from "../../utils/storeApi";
 const useStyles = makeStyles((theme) => ({
-  btn: { diplay: "flex", justifyContent: "space-between" },
   card: {
     padding: theme.spacing(1),
   },
@@ -26,18 +25,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function InputCard({ setOpen, listId }) {
+function InputCard({ setOpen, listId, type }) {
   const classes = useStyles();
-  const { addMoreCard } = useContext(storeApi);
-  const [cardTitle, setCardTitle] = useState("");
+  const { addMoreCard, addMoreList } = useContext(storeApi);
+  const [title, setTitle] = useState("");
 
   const handleChange = (e) => {
-    setCardTitle(e.target.value);
+    setTitle(e.target.value);
   };
   const handleBtnConfirm = () => {
-    addMoreCard(cardTitle, listId);
-    setCardTitle("");
-    setOpen(false);
+    if (type === "card") {
+      addMoreCard(title, listId);
+      setTitle("");
+      setOpen(false);
+    } else {
+      addMoreList(title);
+      setTitle("");
+      setOpen(false);
+    }
   };
 
   return (
@@ -46,11 +51,11 @@ function InputCard({ setOpen, listId }) {
         <Paper className={classes.card}>
           <InputBase
             onChange={handleChange}
-            placeholder='Add activity'
+            placeholder={type === "card" ? "Add activity" : "Add new list"}
             multiline
             required
             fullWidth
-            value={cardTitle}
+            value={title}
             inputProps={{
               className: classes.input,
             }}
@@ -59,7 +64,7 @@ function InputCard({ setOpen, listId }) {
       </div>
       <div className={classes.btn}>
         <Button className={classes.btnConfirm} onClick={handleBtnConfirm}>
-          Add Card
+          {type === "card" ? "Add Card" : "Add List"}
         </Button>
         <IconButton>
           <ClearIcon onClick={() => setOpen(false)} />
