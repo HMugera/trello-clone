@@ -1,140 +1,38 @@
-import "./App.css";
-import List from "./components/list/list";
-import { useState } from "react";
-import { v4 as uuid } from "uuid";
-import store from "./utils/store";
-import StoreApi from "./utils/storeApi";
-import Inputcontainer from "./components/input/inputContainer";
 import { makeStyles } from "@material-ui/core";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import React, { useState } from "react";
+import Main from "./components/Main/main";
+import Navbar from "./components/navbar/navbar";
+import SideMenu from "./components/sidemenu/sideMenu";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    minHeight: "100vh",
-    background: "orange",
-    width: "100%",
-    overflowY: "auto",
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 function App() {
   const classes = useStyles();
-  const [data, setData] = useState(store);
+  const [openSidemenu, setopenSidemenu] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState("orange");
 
-  const addMoreCard = (title, listId) => {
-    const newCardId = uuid();
-
-    const newCard = {
-      id: newCardId,
-      title,
-    };
-
-    const list = data.lists[listId];
-    list.cards = [...list.cards, newCard];
-
-    const newState = {
-      ...data,
-      lists: {
-        ...data.lists,
-        [listId]: list,
-      },
-    };
-    setData(newState);
-  };
-  const addMoreList = (title) => {
-    const newListId = uuid();
-    const newList = {
-      id: newListId,
-      title,
-      cards: [],
-    };
-    const newState = {
-      listIds: [...data.listIds, newListId],
-      lists: {
-        ...data.lists,
-        [newListId]: newList,
-      },
-    };
-    setData(newState);
-  };
-  const updateListTitle = (title, listId) => {
-    const list = data.lists[listId];
-    list.title = title;
-
-    const newState = {
-      ...data,
-      lists: {
-        ...data.lists,
-        [listId]: list,
-      },
-    };
-    setData(newState);
-  };
-  const onDragEnd = (result) => {
-    const { destination, source, draggableId, type } = result;
-    console.log("destination", destination, "source", source);
-
-    if (!destination) {
-      return;
-    }
-    if (type === "list") {
-      const newListIds = data.listIds;
-      newListIds.splice(source.index, 1);
-      newListIds.splice(destination.index, 0, draggableId);
-      return;
-    }
-    const sourceList = data.lists[source.droppableId];
-    const destinationList = data.lists[destination.droppableId];
-    const draggingCard = sourceList.cards.filter(
-      (card) => card.id === draggableId
-    )[0];
-    if (source.droppableId === destination.droppableId) {
-      sourceList.cards.splice(source.index, 1);
-      destinationList.cards.splice(destination.index, 0, draggingCard);
-      const newState = {
-        ...data,
-        lists: {
-          ...data.lists,
-          [sourceList.id]: destinationList,
-        },
-      };
-      setData(newState);
-    } else {
-      sourceList.cards.splice(source.index, 1);
-      destinationList.cards.splice(destination.index, 0, draggingCard);
-      const newState = {
-        ...data,
-        lists: {
-          ...data.lists,
-          [sourceList.id]: sourceList,
-          [destinationList.id]: destinationList,
-        },
-      };
-      setData(newState);
-    }
-  };
   return (
-    <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId='app' type='list' direction='horizontal'>
-          {(provided) => (
-            <div
-              className={classes.root}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {data.listIds.map((listId, index) => {
-                const list = data.lists[listId];
-                return <List list={list} key={listId} index={index} />;
-              })}
-              <Inputcontainer type='list' />
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </StoreApi.Provider>
+    <div
+      className={classes.root}
+      style={{
+        backgroundColor: backgroundImage,
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+       
+        height: "100vh",
+        overflowY: "hidden",
+   
+      }}
+    >
+      <Navbar openSidemenu={openSidemenu} setopenSidemenu={setopenSidemenu} />
+      <SideMenu
+        openSidemenu={openSidemenu}
+        setopenSidemenu={setopenSidemenu}
+        setBackgroundImage={setBackgroundImage}
+      />
+      <Main />
+    </div>
   );
 }
 

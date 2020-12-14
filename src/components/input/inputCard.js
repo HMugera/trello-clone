@@ -65,10 +65,10 @@ function InputCard({ setOpen, listId, type }) {
       </div>
       <div className={classes.btn}>
         <Button className={classes.btnConfirm} onClick={handleBtnConfirm}>
-          {type === "card" ? "Add Card" : "Add List"}
+          {type === "card" ? "Add Acitivity" : "Add List"}
         </Button>
-        <IconButton>
-          <ClearIcon onClick={() => setOpen(false)} />
+        <IconButton onClick={() => setOpen(false)}>
+          <ClearIcon />
         </IconButton>
       </div>
     </div>

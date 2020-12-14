@@ -2,11 +2,12 @@ import React from "react";
 import { makeStyles, Paper } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 
-
 const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(1, 1, 1, 2),
     margin: theme.spacing(1),
+    fontSize: "17px",
+    fontWeight: "bold",
   },
 }));
 

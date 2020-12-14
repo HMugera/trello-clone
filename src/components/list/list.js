@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, CssBaseline, makeStyles } from "@material-ui/core";
-import Title from "../title";
+import Title from "../title/title";
 import Card from "../card/card";
 import Inputcontainer from "../input/inputContainer";
 import { Draggable, Droppable } from "react-beautiful-dnd";
