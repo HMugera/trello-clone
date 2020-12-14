@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Typography, CssBaseline, makeStyles } from "@material-ui/core";
+import { Paper, CssBaseline, makeStyles } from "@material-ui/core";
 import Title from "../title";
 import Card from "../card/card";
 import Inputcontainer from "../input/inputContainer";
@@ -17,30 +17,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function List({ list, type }) {
+function List({ list, index }) {
   const classes = useStyles();
   return (
-    <div>
-      <Paper className={classes.root}>
-        <CssBaseline />
-        <Title listtitle={list.title} listId={list.id} />
-        <Droppable droppableId={list.id}>
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className={classes.cardContainer}
-            >
-              {list.cards.map((card, index) => (
-                <Card key={card.id} card={card} index={index} />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <Inputcontainer listId={list.id} type='card' />
-      </Paper>
-    </div>
+    <Draggable draggableId={list.id} index={index}>
+      {(provided) => (
+        <div {...provided.draggableProps} ref={provided.innerRef}>
+          <Paper className={classes.root} {...provided.dragHandleProps}>
+            <CssBaseline />
+            <Title listtitle={list.title} listId={list.id} />
+            <Droppable droppableId={list.id}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={classes.cardContainer}
+                >
+                  {list.cards.map((card, index) => (
+                    <Card key={card.id} card={card} index={index} />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+            <Inputcontainer listId={list.id} type='card' />
+          </Paper>
+        </div>
+      )}
+    </Draggable>
   );
 }
 

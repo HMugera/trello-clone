@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles, Paper } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
-import { PersonalVideoRounded } from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme) => ({
   card: {
