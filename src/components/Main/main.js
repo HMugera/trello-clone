@@ -10,8 +10,8 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    flexWrap: "wrap",
     width: "100%",
-  
   },
 }));
 
